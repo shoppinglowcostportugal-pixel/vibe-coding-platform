@@ -1,10 +1,213 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>O meu site</title>
-</head>
-<body>
-  <h1>Olá 👋</h1>
-  <p>Este é o meu site no GitHub.</p>
-</body>
-</html>
+import React, { useState } from "react";
+
+export default function HomePage() {
+  const [showPreview, setShowPreview] = useState(false);
+  const [username, setUsername] = useState("");
+  const [participants, setParticipants] = useState([]);
+  const [winner, setWinner] = useState(null);
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [adminKey, setAdminKey] = useState("");
+
+  const [user, setUser] = useState(null);
+  const [loginName, setLoginName] = useState("");
+
+  const fakeSubscription = {
+    active: true,
+    plan: "Premium",
+    paymentMethod: "Visa •••• 4242",
+  };
+
+  const generateFakeIP = () =>
+    `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+
+  const handleJoin = () => {
+    if (!username) return;
+
+    const ip = generateFakeIP();
+
+    const usernameExists = participants.some(
+      (p) => p.username.toLowerCase() === username.toLowerCase()
+    );
+
+    const ipExists = participants.some((p) => p.ip === ip);
+
+    if (usernameExists) {
+      alert("Este username já participou.");
+      return;
+    }
+
+    if (ipExists) {
+      alert("Este IP já participou.");
+      return;
+    }
+
+    const newEntry = { username, ip };
+    setParticipants([...participants, newEntry]);
+    setUsername("");
+  };
+
+  const drawWinner = () => {
+    if (!showAdmin) return;
+    if (participants.length === 0) return;
+
+    const random = participants[Math.floor(Math.random() * participants.length)];
+    setWinner(random);
+  };
+
+  const unlockAdmin = () => {
+    if (adminKey === "admin123") {
+      setShowAdmin(true);
+    } else {
+      alert("Código errado");
+    }
+  };
+
+  const login = () => {
+    if (!loginName) return;
+    setUser({ name: loginName });
+    setLoginName("");
+  };
+
+  const logout = () => {
+    setUser(null);
+    setShowAdmin(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-white font-sans">
+      <header className="flex justify-between items-center p-6 border-b border-gray-800">
+        <h1 className="text-2xl font-bold tracking-widest">MY SPACE</h1>
+
+        {!user ? (
+          <div className="flex gap-2">
+            <input
+              placeholder="Login"
+              value={loginName}
+              onChange={(e) => setLoginName(e.target.value)}
+              className="bg-black border border-gray-700 px-2 rounded"
+            />
+            <button onClick={login} className="bg-yellow-500 text-black px-3 py-1 rounded">
+              Entrar
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-3">
+            <span className="text-gray-400">{user.name}</span>
+            <button onClick={logout} className="bg-red-500 px-3 py-1 rounded">
+              Sair
+            </button>
+          </div>
+        )}
+      </header>
+
+      {user && (
+        <div className="p-6 border-b border-gray-800 bg-gray-900">
+          <h3 className="text-2xl font-bold mb-4">👤 Perfil</h3>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-black p-4 rounded-2xl">
+              <p className="text-gray-500 text-sm">Utilizador</p>
+              <p className="text-lg font-semibold">{user.name}</p>
+            </div>
+
+            <div className="bg-black p-4 rounded-2xl">
+              <p className="text-gray-500 text-sm">Plano</p>
+              <p className="text-lg font-semibold text-yellow-500">{fakeSubscription.plan}</p>
+              <p className="text-sm text-gray-400 mt-1">
+                {fakeSubscription.active ? "Ativo" : "Inativo"}
+              </p>
+            </div>
+
+            <div className="bg-black p-4 rounded-2xl">
+              <p className="text-gray-500 text-sm">Pagamento</p>
+              <p className="text-lg font-semibold">{fakeSubscription.paymentMethod}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <section className="p-8">
+        <p className="text-green-400 text-sm mb-2">● LIVE</p>
+        <h2 className="text-5xl font-bold mb-3 tracking-widest">GIVEAWAY EM DESTAQUE</h2>
+        <p className="text-gray-400 max-w-xl">Participa no giveaway atual.</p>
+      </section>
+
+      <section className="px-8 pb-8">
+        <div className="bg-gray-900 rounded-2xl p-6 border border-yellow-500">
+          <h3 className="text-2xl font-bold mb-4">🎁 Participar</h3>
+
+          <div className="flex gap-3 mb-4">
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username do Instagram"
+              className="flex-1 bg-black border border-gray-700 rounded-xl px-4 py-2"
+            />
+            <button onClick={handleJoin} className="bg-yellow-500 text-black px-4 py-2 rounded-xl font-semibold">
+              Entrar
+            </button>
+          </div>
+
+          {winner && (
+            <div className="bg-black p-4 rounded-xl border border-green-500">🏆 {winner.username}</div>
+          )}
+        </div>
+      </section>
+
+      <div className="p-4">
+        {!showAdmin ? (
+          <div className="flex gap-2">
+            <input
+              type="password"
+              placeholder="Admin key"
+              value={adminKey}
+              onChange={(e) => setAdminKey(e.target.value)}
+              className="bg-black border px-2"
+            />
+            <button onClick={unlockAdmin} className="bg-yellow-500 px-2">Entrar</button>
+          </div>
+        ) : (
+          <div>
+            <button onClick={drawWinner} className="bg-green-500 px-3 py-1 mb-2">Sortear</button>
+            {participants.map((p, i) => (
+              <div key={i}>{p.username} - {p.ip}</div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="p-8">
+        <button onClick={() => setShowPreview(true)} className="bg-yellow-500 px-4 py-2 text-black">
+          Subscrever
+        </button>
+      </div>
+
+      {showPreview && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center">
+          <div className="bg-gray-900 p-6 rounded-2xl w-[90%] max-w-xl">
+            <h3 className="mb-4">Conteúdo</h3>
+
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              {["Video Premium", "VIP Content", "Post", "Extra"].map((item, i) => (
+                <div key={i} className="bg-black p-3 rounded">{item}</div>
+              ))}
+            </div>
+
+            <div className="space-y-2 mb-4">
+              <input placeholder="Nome" className="w-full bg-black border px-2 py-1" />
+              <input placeholder="Cartão" className="w-full bg-black border px-2 py-1" />
+              <div className="flex gap-2">
+                <input placeholder="MM/AA" className="w-1/2 bg-black border px-2 py-1" />
+                <input placeholder="CVV" className="w-1/2 bg-black border px-2 py-1" />
+              </div>
+            </div>
+
+            <button className="bg-yellow-500 w-full py-2 text-black">Pagar</button>
+          </div>
+        </div>
+      )}
+
+      <footer className="p-6 text-center text-gray-500">© 2026</footer>
+    </div>
+  );
+}
