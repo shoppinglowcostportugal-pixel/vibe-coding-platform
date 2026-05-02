@@ -1,213 +1,173 @@
-import React, { useState } from "react";
-
-export default function HomePage() {
-  const [showPreview, setShowPreview] = useState(false);
-  const [username, setUsername] = useState("");
-  const [participants, setParticipants] = useState([]);
-  const [winner, setWinner] = useState(null);
-  const [showAdmin, setShowAdmin] = useState(false);
-  const [adminKey, setAdminKey] = useState("");
-
-  const [user, setUser] = useState(null);
-  const [loginName, setLoginName] = useState("");
-
-  const fakeSubscription = {
-    active: true,
-    plan: "Premium",
-    paymentMethod: "Visa •••• 4242",
-  };
-
-  const generateFakeIP = () =>
-    `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
-
-  const handleJoin = () => {
-    if (!username) return;
-
-    const ip = generateFakeIP();
-
-    const usernameExists = participants.some(
-      (p) => p.username.toLowerCase() === username.toLowerCase()
-    );
-
-    const ipExists = participants.some((p) => p.ip === ip);
-
-    if (usernameExists) {
-      alert("Este username já participou.");
-      return;
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Portfólio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      line-height: 1.6;
     }
 
-    if (ipExists) {
-      alert("Este IP já participou.");
-      return;
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 10%;
+      background: rgba(15, 23, 42, 0.9);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      backdrop-filter: blur(10px);
     }
 
-    const newEntry = { username, ip };
-    setParticipants([...participants, newEntry]);
-    setUsername("");
-  };
-
-  const drawWinner = () => {
-    if (!showAdmin) return;
-    if (participants.length === 0) return;
-
-    const random = participants[Math.floor(Math.random() * participants.length)];
-    setWinner(random);
-  };
-
-  const unlockAdmin = () => {
-    if (adminKey === "admin123") {
-      setShowAdmin(true);
-    } else {
-      alert("Código errado");
+    header h1 {
+      font-weight: 800;
+      letter-spacing: 1px;
     }
-  };
 
-  const login = () => {
-    if (!loginName) return;
-    setUser({ name: loginName });
-    setLoginName("");
-  };
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #e5e7eb;
+      font-weight: 500;
+      transition: 0.3s;
+    }
 
-  const logout = () => {
-    setUser(null);
-    setShowAdmin(false);
-  };
+    nav a:hover {
+      color: #38bdf8;
+    }
 
-  return (
-    <div className="min-h-screen bg-black text-white font-sans">
-      <header className="flex justify-between items-center p-6 border-b border-gray-800">
-        <h1 className="text-2xl font-bold tracking-widest">MY SPACE</h1>
+    section {
+      padding: 100px 10%;
+      min-height: 100vh;
+    }
 
-        {!user ? (
-          <div className="flex gap-2">
-            <input
-              placeholder="Login"
-              value={loginName}
-              onChange={(e) => setLoginName(e.target.value)}
-              className="bg-black border border-gray-700 px-2 rounded"
-            />
-            <button onClick={login} className="bg-yellow-500 text-black px-3 py-1 rounded">
-              Entrar
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-3">
-            <span className="text-gray-400">{user.name}</span>
-            <button onClick={logout} className="bg-red-500 px-3 py-1 rounded">
-              Sair
-            </button>
-          </div>
-        )}
-      </header>
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-      {user && (
-        <div className="p-6 border-b border-gray-800 bg-gray-900">
-          <h3 className="text-2xl font-bold mb-4">👤 Perfil</h3>
+    .hero-text h2 {
+      font-size: 48px;
+      font-weight: 800;
+    }
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-black p-4 rounded-2xl">
-              <p className="text-gray-500 text-sm">Utilizador</p>
-              <p className="text-lg font-semibold">{user.name}</p>
-            </div>
+    .hero-text p {
+      margin-top: 20px;
+      max-width: 500px;
+      color: #94a3b8;
+    }
 
-            <div className="bg-black p-4 rounded-2xl">
-              <p className="text-gray-500 text-sm">Plano</p>
-              <p className="text-lg font-semibold text-yellow-500">{fakeSubscription.plan}</p>
-              <p className="text-sm text-gray-400 mt-1">
-                {fakeSubscription.active ? "Ativo" : "Inativo"}
-              </p>
-            </div>
+    .hero img {
+      width: 250px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
 
-            <div className="bg-black p-4 rounded-2xl">
-              <p className="text-gray-500 text-sm">Pagamento</p>
-              <p className="text-lg font-semibold">{fakeSubscription.paymentMethod}</p>
-            </div>
-          </div>
-        </div>
-      )}
+    .section-title {
+      font-size: 32px;
+      margin-bottom: 40px;
+      font-weight: 700;
+    }
 
-      <section className="p-8">
-        <p className="text-green-400 text-sm mb-2">● LIVE</p>
-        <h2 className="text-5xl font-bold mb-3 tracking-widest">GIVEAWAY EM DESTAQUE</h2>
-        <p className="text-gray-400 max-w-xl">Participa no giveaway atual.</p>
-      </section>
+    .about p {
+      max-width: 700px;
+      color: #94a3b8;
+    }
 
-      <section className="px-8 pb-8">
-        <div className="bg-gray-900 rounded-2xl p-6 border border-yellow-500">
-          <h3 className="text-2xl font-bold mb-4">🎁 Participar</h3>
+    .experience-item {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #1e293b;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
 
-          <div className="flex gap-3 mb-4">
-            <input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username do Instagram"
-              className="flex-1 bg-black border border-gray-700 rounded-xl px-4 py-2"
-            />
-            <button onClick={handleJoin} className="bg-yellow-500 text-black px-4 py-2 rounded-xl font-semibold">
-              Entrar
-            </button>
-          </div>
+    .experience-item:hover {
+      transform: translateY(-5px);
+      background: #334155;
+    }
 
-          {winner && (
-            <div className="bg-black p-4 rounded-xl border border-green-500">🏆 {winner.username}</div>
-          )}
-        </div>
-      </section>
+    .experience-item h3 {
+      margin-bottom: 10px;
+    }
 
-      <div className="p-4">
-        {!showAdmin ? (
-          <div className="flex gap-2">
-            <input
-              type="password"
-              placeholder="Admin key"
-              value={adminKey}
-              onChange={(e) => setAdminKey(e.target.value)}
-              className="bg-black border px-2"
-            />
-            <button onClick={unlockAdmin} className="bg-yellow-500 px-2">Entrar</button>
-          </div>
-        ) : (
-          <div>
-            <button onClick={drawWinner} className="bg-green-500 px-3 py-1 mb-2">Sortear</button>
-            {participants.map((p, i) => (
-              <div key={i}>{p.username} - {p.ip}</div>
-            ))}
-          </div>
-        )}
-      </div>
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #020617;
+      color: #64748b;
+    }
 
-      <div className="p-8">
-        <button onClick={() => setShowPreview(true)} className="bg-yellow-500 px-4 py-2 text-black">
-          Subscrever
-        </button>
-      </div>
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
 
-      {showPreview && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center">
-          <div className="bg-gray-900 p-6 rounded-2xl w-[90%] max-w-xl">
-            <h3 className="mb-4">Conteúdo</h3>
+      .hero img {
+        margin-top: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
 
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              {["Video Premium", "VIP Content", "Post", "Extra"].map((item, i) => (
-                <div key={i} className="bg-black p-3 rounded">{item}</div>
-              ))}
-            </div>
+<header>
+  <h1>O TEU NOME</h1>
+  <nav>
+    <a href="#about">Sobre</a>
+    <a href="#experience">Experiência</a>
+    <a href="#contact">Contacto</a>
+  </nav>
+</header>
 
-            <div className="space-y-2 mb-4">
-              <input placeholder="Nome" className="w-full bg-black border px-2 py-1" />
-              <input placeholder="Cartão" className="w-full bg-black border px-2 py-1" />
-              <div className="flex gap-2">
-                <input placeholder="MM/AA" className="w-1/2 bg-black border px-2 py-1" />
-                <input placeholder="CVV" className="w-1/2 bg-black border px-2 py-1" />
-              </div>
-            </div>
+<section class="hero">
+  <div class="hero-text">
+    <h2>Constrói. Evolui. Destaca-te.</h2>
+    <p>Sou um profissional focado em resultados, com experiência em [área]. Trabalho com disciplina, visão estratégica e execução prática.</p>
+  </div>
+  <img src="https://via.placeholder.com/250" alt="Foto">
+</section>
 
-            <button className="bg-yellow-500 w-full py-2 text-black">Pagar</button>
-          </div>
-        </div>
-      )}
+<section id="about" class="about">
+  <h2 class="section-title">Sobre Mim</h2>
+  <p>Escreve aqui um resumo sólido sobre ti. Evita clichés. Foca-te no que fazes bem, no tipo de problemas que resolves e no valor que trazes.</p>
+</section>
 
-      <footer className="p-6 text-center text-gray-500">© 2026</footer>
-    </div>
-  );
-}
+<section id="experience">
+  <h2 class="section-title">Experiência</h2>
+
+  <div class="experience-item">
+    <h3>Empresa / Projeto</h3>
+    <p><strong>Cargo</strong> — 2022 - Presente</p>
+    <p>Descrição clara do que fizeste, resultados obtidos, impacto gerado.</p>
+  </div>
+
+  <div class="experience-item">
+    <h3>Empresa / Projeto</h3>
+    <p><strong>Cargo</strong> — 2020 - 2022</p>
+    <p>Descrição clara do que fizeste, resultados obtidos, impacto gerado.</p>
+  </div>
+
+</section>
+
+<section id="contact">
+  <h2 class="section-title">Contacto</h2>
+  <p>Email: teuemail@email.com</p>
+  <p>LinkedIn: linkedin.com/in/teuperfil</p>
+</section>
+
+<footer>
+  <p>© 2026 — O TEU NOME</p>
+</footer>
+
+</body>
+</html>
