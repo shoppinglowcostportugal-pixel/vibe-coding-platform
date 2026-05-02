@@ -3,160 +3,222 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Portfólio</title>
+  <title>Portfólio Profissional</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: 'Inter', sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
+      background: #0b0f1a;
+      color: #e2e8f0;
       line-height: 1.6;
+      scroll-behavior: smooth;
     }
 
     header {
+      position: fixed;
+      width: 100%;
+      top: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 20px 10%;
-      background: rgba(15, 23, 42, 0.9);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      backdrop-filter: blur(10px);
+      background: rgba(11,15,26,0.8);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
     }
 
-    header h1 {
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
+    header h1 { font-weight: 800; }
 
     nav a {
-      margin-left: 20px;
+      margin-left: 25px;
+      color: #cbd5f5;
       text-decoration: none;
-      color: #e5e7eb;
       font-weight: 500;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #38bdf8;
+      bottom: -5px;
+      left: 0;
       transition: 0.3s;
     }
 
-    nav a:hover {
-      color: #38bdf8;
-    }
+    nav a:hover::after { width: 100%; }
 
-    section {
-      padding: 100px 10%;
-      min-height: 100vh;
-    }
+    section { padding: 120px 10%; }
 
     .hero {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      min-height: 100vh;
     }
 
     .hero-text h2 {
-      font-size: 48px;
+      font-size: 52px;
       font-weight: 800;
+      margin-bottom: 20px;
     }
 
     .hero-text p {
-      margin-top: 20px;
-      max-width: 500px;
       color: #94a3b8;
+      max-width: 500px;
+      margin-bottom: 30px;
     }
 
+    .cta-btn {
+      background: #38bdf8;
+      color: #0b0f1a;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .cta-btn:hover { opacity: 0.8; }
+
     .hero img {
-      width: 250px;
+      width: 260px;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
     }
 
     .section-title {
-      font-size: 32px;
+      font-size: 34px;
       margin-bottom: 40px;
       font-weight: 700;
     }
 
-    .about p {
-      max-width: 700px;
-      color: #94a3b8;
+    .about p { max-width: 700px; color: #94a3b8; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
     }
 
-    .experience-item {
-      margin-bottom: 30px;
+    .card {
+      background: #111827;
       padding: 20px;
-      background: #1e293b;
       border-radius: 12px;
       transition: 0.3s;
     }
 
-    .experience-item:hover {
-      transform: translateY(-5px);
-      background: #334155;
+    .card:hover {
+      transform: translateY(-6px);
+      background: #1f2937;
     }
 
-    .experience-item h3 {
-      margin-bottom: 10px;
+    .experience-item {
+      margin-bottom: 20px;
+      padding: 20px;
+      background: #111827;
+      border-radius: 12px;
+    }
+
+    .metrics {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .metric h3 {
+      font-size: 28px;
+      color: #38bdf8;
     }
 
     footer {
       text-align: center;
-      padding: 30px;
+      padding: 40px;
       background: #020617;
       color: #64748b;
     }
 
     @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .hero img {
-        margin-top: 30px;
-      }
+      .hero { flex-direction: column; text-align: center; }
+      .metrics { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>O TEU NOME</h1>
+  <h1>BRUNO JAU</h1>
   <nav>
     <a href="#about">Sobre</a>
     <a href="#experience">Experiência</a>
+    <a href="#projects">Projetos</a>
     <a href="#contact">Contacto</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="hero-text">
-    <h2>Constrói. Evolui. Destaca-te.</h2>
-    <p>Sou um profissional focado em resultados, com experiência em [área]. Trabalho com disciplina, visão estratégica e execução prática.</p>
+    <h2>VERSATILIDADE</h2>
+    <p>Esta é a palavra que define o meu trabalho. 
+      Cozinha, informática, e reposição, são as minhas melhores skills.
+    </p>
+    <a href="#contact" class="cta-btn">📞Contactar Bruno</a>
   </div>
-  <img src="https://via.placeholder.com/250" alt="Foto">
+  <img src="https://via.placeholder.com/260" alt="Foto">
 </section>
 
 <section id="about" class="about">
   <h2 class="section-title">Sobre Mim</h2>
-  <p>Escreve aqui um resumo sólido sobre ti. Evita clichés. Foca-te no que fazes bem, no tipo de problemas que resolves e no valor que trazes.</p>
+  <p>Substitui este texto por algo direto e estratégico: quem és, o que fazes bem e que tipo de problemas resolves. Evita generalidades.</p>
+
+  <div class="metrics">
+    <div class="metric">
+      <h3>+30%</h3>
+      <p>Melhoria de resultados</p>
+    </div>
+    <div class="metric">
+      <h3>5+</h3>
+      <p>Anos de experiência</p>
+    </div>
+    <div class="metric">
+      <h3>10+</h3>
+      <p>Projetos concluídos</p>
+    </div>
+  </div>
 </section>
 
 <section id="experience">
   <h2 class="section-title">Experiência</h2>
 
   <div class="experience-item">
-    <h3>Empresa / Projeto</h3>
+    <h3>Empresa</h3>
     <p><strong>Cargo</strong> — 2022 - Presente</p>
-    <p>Descrição clara do que fizeste, resultados obtidos, impacto gerado.</p>
+    <p>Foca-te em resultados: aumento de receita, eficiência, impacto direto.</p>
   </div>
 
   <div class="experience-item">
-    <h3>Empresa / Projeto</h3>
+    <h3>Empresa</h3>
     <p><strong>Cargo</strong> — 2020 - 2022</p>
-    <p>Descrição clara do que fizeste, resultados obtidos, impacto gerado.</p>
+    <p>Mostra evolução e responsabilidade crescente.</p>
   </div>
+</section>
 
+<section id="projects">
+  <h2 class="section-title">Projetos</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Projeto 1</h3>
+      <p>Descrição breve com impacto.</p>
+    </div>
+    <div class="card">
+      <h3>Projeto 2</h3>
+      <p>Descrição breve com impacto.</p>
+    </div>
+  </div>
 </section>
 
 <section id="contact">
